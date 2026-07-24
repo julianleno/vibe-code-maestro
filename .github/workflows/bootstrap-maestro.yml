@@ -34,7 +34,7 @@ jobs:
         run: |
           shopt -s nullglob
           parts=(.maestro-bootstrap.part-*)
-          test "${#parts[@]}" -eq 8
+          test "${#parts[@]}" -eq 13
           printf '%s\n' "${parts[@]}"
 
       - name: Reconstruct archive
