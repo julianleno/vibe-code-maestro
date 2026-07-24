@@ -1,0 +1,60 @@
+name: Bootstrap Vibe Code Maestro
+
+on:
+  push:
+    branches:
+      - agent/ai-development-os
+    paths:
+      - ".maestro-bootstrap.part-*"
+      - ".github/workflows/bootstrap-maestro.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct and validate repository
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          shopt -s nullglob
+          parts=(.maestro-bootstrap.part-*)
+          if [ "${#parts[@]}" -eq 0 ]; then
+            echo "Bootstrap payload already consumed."
+            exit 0
+          fi
+
+          expected=8
+          if [ "${#parts[@]}" -ne "$expected" ]; then
+            echo "Expected $expected bootstrap parts; found ${#parts[@]}."
+            exit 1
+          fi
+
+          cat "${parts[@]}" > /tmp/maestro-bootstrap.tar.gz.b64
+          base64 --decode /tmp/maestro-bootstrap.tar.gz.b64 > /tmp/maestro-bootstrap.tar.gz
+          tar -xzf /tmp/maestro-bootstrap.tar.gz -C .
+
+          chmod +x installers/*.sh scripts/*.sh
+          python scripts/validate_maestro.py
+          python scripts/validate_pack.py
+
+          rm -f .maestro-bootstrap.part-*
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No bootstrap changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "bootstrap Vibe Code Maestro"
+          git push
