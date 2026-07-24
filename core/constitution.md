@@ -8,5 +8,7 @@
 6. Security, accessibility, usability, and observability are release requirements.
 7. CI is the enforcement layer; documentation alone is not a control.
 8. External skills remain external dependencies unless their license permits redistribution and attribution is preserved.
-9. Secrets never enter prompts, source control, logs, screenshots, or fixtures.
-10. The system must leave a reproducible handoff after every meaningful execution.
+9. Secrets never enter prompts, source control, logs, screenshots, fixtures, or project memory.
+10. Repository-backed memory is canonical and must permit another agent to resume without the prior chat window.
+11. External semantic memory supplements, but never overrides, verified repository state or approved decisions.
+12. The system must leave a reproducible handoff and memory checkpoint after every meaningful execution.

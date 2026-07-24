@@ -1,16 +1,33 @@
 platforms:
   codex:
     instructions: AGENTS.md
-    skills: .codex/skills
+    skills: .codex/skills/vibe-code-maestro/SKILL.md
+    start_prompt: .maestro/prompts/codex.md
+    persistent_memory: .maestro/memory
+    optional_semantic_memory: agentmemory
   claude:
     instructions: CLAUDE.md
-    skills: .claude/skills
+    skills: .claude/skills/vibe-code-maestro/SKILL.md
+    start_prompt: .maestro/prompts/claude.md
+    persistent_memory: .maestro/memory
+    optional_semantic_memory: agentmemory
   lovable:
-    instructions: docs/lovable-master-prompt.md
-    notes: "Lovable consumes the project spec and master prompt; repository-local skill discovery may differ from coding agents."
+    instructions: docs/LOVABLE.md
+    source_template: docs/lovable-master-prompt.md
+    persistent_memory: .maestro/memory
+    notes: "Paste the generated master prompt into Lovable; keep .maestro files in the connected repository when possible."
+  mimo:
+    instructions: docs/MIMO.md
+    source_template: docs/mimo-master-prompt.md
+    persistent_memory: .maestro/memory
+    notes: "Paste the generated master prompt into Mimo Build. If repository files are unavailable, paste memory PROJECT.md and STATE.md at session start."
   cursor:
     instructions: .cursor/rules/maestro.mdc
     skills: .cursor/skills
+    persistent_memory: .maestro/memory
+    optional_semantic_memory: agentmemory
   gemini:
     instructions: GEMINI.md
-    skills: .gemini/skills
+    skills: .gemini/skills/vibe-code-maestro/SKILL.md
+    persistent_memory: .maestro/memory
+    optional_semantic_memory: agentmemory

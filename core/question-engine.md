@@ -1,16 +1,47 @@
 # Project Intake Question Engine
 
-Ask questions in this order, skipping answers already known:
+## First-run behavior
 
-1. What are we building, for whom, and why now?
-2. What user action defines success?
-3. What is in scope for version one?
-4. Which constraints are non-negotiable?
-5. Which systems, data, APIs, or repositories already exist?
-6. What must be true for launch approval?
-7. Which environments and deployment target will be used?
-8. Are authentication, payments, personal data, or regulated data involved?
-9. Which visual references, brand rules, and accessibility target apply?
-10. Who decides when tradeoffs or ambiguities arise?
+Before asking anything, inspect the repository and read existing project files. Never ask for information already known.
 
-Produce `specs/project.spec.yaml` and `specs/acceptance.md` before scaffolding.
+Use simple language. Do not force the user to choose frameworks, libraries, folder structures, test tools, hosting internals, or database details when a safe recommendation can be made.
+
+The user may answer `decida por mim`, `use o padrão recomendado`, or equivalent. Treat that as permission to choose a safe default and explain the consequence in one sentence.
+
+## First batch: maximum four questions
+
+Ask only unanswered items:
+
+1. What are we building, who will use it, and what problem does it solve?
+2. What must the first useful version allow the user to complete?
+3. What must stay out of version one?
+4. Are login, payments, personal data, existing systems, visual references, or a required publishing destination involved?
+
+Include short examples when a question could be ambiguous.
+
+## Targeted follow-ups
+
+Ask follow-ups only when the answer materially changes scope, architecture, security, data, cost, UX, or deployment:
+
+- user roles and permissions;
+- critical data and retention;
+- integrations and source systems;
+- regulated or sensitive information;
+- payments and commercial rules;
+- required devices and accessibility target;
+- domain, environments, and deployment ownership;
+- measurable success and launch approval;
+- decision owner for unresolved tradeoffs.
+
+## Required outputs before scaffolding
+
+Create or update:
+
+- `.maestro/reality-check.md`
+- `.maestro/project.spec.yaml`
+- `.maestro/acceptance.md`
+- `.maestro/implementation-plan.md`
+- `.maestro/risk-register.md`
+- `.maestro/HANDOFF.md`
+
+Separate verified facts, assumptions, decisions, and unresolved questions. Do not scaffold production code until the canonical specification is ready.
