@@ -1,0 +1,16 @@
+platforms:
+  codex:
+    instructions: AGENTS.md
+    skills: .codex/skills
+  claude:
+    instructions: CLAUDE.md
+    skills: .claude/skills
+  lovable:
+    instructions: docs/lovable-master-prompt.md
+    notes: "Lovable consumes the project spec and master prompt; repository-local skill discovery may differ from coding agents."
+  cursor:
+    instructions: .cursor/rules/maestro.mdc
+    skills: .cursor/skills
+  gemini:
+    instructions: GEMINI.md
+    skills: .gemini/skills

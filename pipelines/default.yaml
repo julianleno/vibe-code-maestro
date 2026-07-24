@@ -1,0 +1,26 @@
+name: default-spec-driven-pipeline
+phases:
+  - id: discovery
+    owner: maestro-product-analyst
+    outputs: [project-spec, acceptance-contract]
+    gate: specification-approved
+  - id: architecture
+    owner: maestro-architect
+    outputs: [architecture, adr, threat-model]
+    gate: architecture-reviewed
+  - id: experience
+    owner: maestro-ui-ux-director
+    outputs: [design-direction, responsive-rules, accessibility-plan]
+    gate: experience-reviewed
+  - id: scaffold
+    owner: maestro-release-engineer
+    outputs: [working-dev-loop, ci, environment-contract]
+    gate: bootstrap-green
+  - id: delivery
+    owner: maestro-manager
+    outputs: [vertical-slices]
+    gate: test-evidence-green
+  - id: release
+    owner: maestro-release-engineer
+    outputs: [release-decision, rollback-plan, handoff]
+    gate: release-approved

@@ -1,0 +1,5 @@
+---
+description: Vibe Code Maestro orchestration and spec-driven development rules
+alwaysApply: true
+---
+Read AGENTS.md and follow the manager-agent sequence. Never implement an undefined requirement. Maintain project specification, acceptance criteria, validation evidence, and handoff.

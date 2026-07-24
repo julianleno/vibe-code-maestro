@@ -1,0 +1,37 @@
+project:
+  name: "Singular Hub"
+  slug: "singular-hub"
+  type: "internal-system"
+  stage: "build"
+  language: "pt-BR"
+  timezone: "America/Fortaleza"
+
+business:
+  problem: "Centralizar operação comercial, propostas, pedidos, produção e finanças."
+  audience: "Equipe interna da Singular Studio Criativo"
+  primary_outcome: "Aumentar previsibilidade e reduzir retrabalho."
+  primary_cta: "Executar próxima ação operacional"
+  non_goals: ["Ser um painel administrativo genérico"]
+
+brand:
+  mode: "singular"
+  design_system_path: "docs/reference-singular-design-system.md"
+
+stack:
+  runtime: "node"
+  language: "typescript"
+  package_manager: "bun"
+  frontend: "react"
+  framework: "tanstack-start"
+  styling: "tailwind"
+  components: "shadcn"
+  database: "supabase-postgres"
+  hosting: "vercel"
+  repository: "github"
+
+workflow:
+  protected_branch: "main"
+  draft_pr_first: true
+  require_ci: true
+  require_preview: true
+  require_human_merge_approval: true

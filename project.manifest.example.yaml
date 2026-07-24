@@ -1,0 +1,80 @@
+project:
+  name: "New Product"
+  slug: "new-product"
+  type: "saas" # landing-page | marketing-site | saas | internal-system | migration
+  stage: "discovery" # discovery | build | hardening | production
+  language: "pt-BR"
+  timezone: "America/Fortaleza"
+  owner: "unknown"
+
+business:
+  problem: "unknown"
+  audience: "unknown"
+  primary_outcome: "unknown"
+  primary_cta: "unknown"
+  revenue_model: "unknown"
+  constraints: []
+  non_goals: []
+  success_metrics: []
+
+brand:
+  mode: "custom" # custom | singular | neutral
+  design_system_path: "standards/design-system.md"
+  references: []
+  tone: ["direct", "professional", "clear"]
+
+stack:
+  runtime: "node"
+  language: "typescript"
+  package_manager: "bun"
+  frontend: "react"
+  framework: "tanstack-start"
+  styling: "tailwind"
+  components: "shadcn"
+  database: "supabase-postgres"
+  auth: "supabase-auth"
+  storage: "supabase-storage"
+  hosting: "vercel"
+  repository: "github"
+
+quality:
+  typescript_strict: true
+  lint_required: true
+  unit_tests: "risk-based"
+  integration_tests: "risk-based"
+  e2e_tests: "critical-paths"
+  accessibility_target: "WCAG-2.2-AA"
+  performance_budget:
+    lcp_ms: 2500
+    cls: 0.1
+    inp_ms: 200
+
+security:
+  rls_required: true
+  least_privilege: true
+  private_storage_by_default: true
+  secrets_server_only: true
+  audit_log_for_sensitive_actions: true
+
+workflow:
+  protected_branch: "main"
+  branch_strategy: "feature-branches"
+  draft_pr_first: true
+  require_ci: true
+  require_preview: true
+  require_human_merge_approval: true
+  merge_strategy: "squash"
+
+integrations:
+  github_repo: "unknown"
+  supabase_project_ref: "unknown"
+  vercel_project: "unknown"
+
+agent:
+  autonomy: "high-with-guardrails"
+  ask_only_when:
+    - "irreversible action"
+    - "commercial policy decision"
+    - "destructive data change"
+    - "production publication"
+  reporting_language: "pt-BR"
