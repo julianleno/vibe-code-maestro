@@ -4,20 +4,30 @@ import sys
 
 root = Path(__file__).resolve().parents[1]
 required = [
-    "README.md", "AGENTS.md", "core/constitution.md", "core/manager-agent.md",
-    "core/question-engine.md", "specs/project.spec.example.yaml",
+    "README.md", "README.en-EN.md", "INSTALL_FOR_AGENTS.md", "AGENTS.md", "core/constitution.md",
+    "core/memory-protocol.md", "core/manager-agent.md", "core/question-engine.md",
+    "specs/project.spec.example.yaml", "templates/memory/INDEX.md",
+    "templates/memory/PROJECT.md", "templates/memory/STATE.md",
     "skills/manager-orchestration/SKILL.md", "skills/spec-driven-development/SKILL.md",
+    "skills/project-onboarding/SKILL.md", "skills/persistent-memory/SKILL.md",
     "skills/ui-ux-intelligence/SKILL.md", "skills/smoke-testing/SKILL.md",
     "skills/security-review/SKILL.md", "skills/pentest-safe/SKILL.md",
     "skills/ci-cd-delivery/SKILL.md", "installers/bootstrap.sh",
+    "installers/bootstrap.ps1", "installers/install-agentmemory.sh",
+    "scripts/validate_installation.py", "scripts/test_bootstrap.py",
+    "scripts/memory_checkpoint.py", "scripts/compact_memory.py",
     "adapters/platform-map.yaml", "integrations/external-skills.md",
+    "integrations/agentmemory.md", "docs/lovable-master-prompt.md",
+    "docs/mimo-master-prompt.md",
 ]
 missing = [p for p in required if not (root / p).is_file()]
 empty = [p for p in required if (root / p).is_file() and (root / p).stat().st_size == 0]
 if missing or empty:
     print("Validation failed")
-    if missing: print("Missing:", *missing, sep="\n- ")
-    if empty: print("Empty:", *empty, sep="\n- ")
+    if missing:
+        print("Missing:", *missing, sep="\n- ")
+    if empty:
+        print("Empty:", *empty, sep="\n- ")
     sys.exit(1)
 for skill in (root / "skills").glob("*/SKILL.md"):
     text = skill.read_text(encoding="utf-8")

@@ -2,7 +2,9 @@
 
 ## Prompt recomendado para continuação
 ## Contexto do negócio
+## Memória canônica consultada
 ## Estado verificado
+## Divergências entre memória e realidade
 ## Stack e infraestrutura
 ## Arquitetura
 ## Módulos
@@ -11,7 +13,9 @@
 ## Branches, PRs e CI
 ## Deploy
 ## Decisões aprovadas
-## Riscos
+## Evidências de validação
+## Riscos e bloqueios
 ## Pendências
-## Próxima ação recomendada
+## Próxima ação exata
+## Arquivo de checkpoint da sessão
 ## Checklist antes do próximo merge

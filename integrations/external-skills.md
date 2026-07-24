@@ -7,7 +7,7 @@ Vibe Code Maestro integrates external skills through their official installers b
 - Repository: `nextlevelbuilder/ui-ux-pro-max-skill`
 - Official installer: `npx uipro-cli init --ai <platform>`
 - Supported platforms include Codex, Claude, Cursor, Windsurf, Copilot, Gemini, and others.
-- Verify the upstream license at install time. The upstream repository declares MIT, while specific packaged CLI materials may carry separate notices; retain all notices.
+- Verify the upstream license at install time and retain notices.
 
 ## Taste Skill
 
@@ -16,6 +16,14 @@ Vibe Code Maestro integrates external skills through their official installers b
 - Install only the selected skill when possible.
 - Retain MIT attribution for copied or modified content.
 
+## Agentmemory
+
+- Repository: `rohitg00/agentmemory`
+- Purpose: optional local semantic memory through MCP and REST.
+- License: Apache License 2.0.
+- Maestro keeps repository memory canonical and uses agentmemory only as an optional retrieval layer.
+- Installation guidance: `integrations/agentmemory.md`.
+
 ## Policy
 
-Never silently vendor third-party repositories. Pin versions for production workflows, record the source commit or release, and run compatibility tests after updates.
+Never silently vendor third-party repositories. Pin versions for production workflows, record the source release, retain attribution, and run compatibility tests after updates. External memories and skills never override verified repository state or approved specifications.

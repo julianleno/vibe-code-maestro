@@ -1,8 +1,12 @@
 name: default-spec-driven-pipeline
 phases:
+  - id: memory-load
+    owner: maestro-manager
+    outputs: [verified-context, current-state, conflict-report]
+    gate: memory-verified
   - id: discovery
     owner: maestro-product-analyst
-    outputs: [project-spec, acceptance-contract]
+    outputs: [project-spec, acceptance-contract, project-memory]
     gate: specification-approved
   - id: architecture
     owner: maestro-architect
@@ -18,8 +22,12 @@ phases:
     gate: bootstrap-green
   - id: delivery
     owner: maestro-manager
-    outputs: [vertical-slices]
+    outputs: [vertical-slices, validation-evidence]
     gate: test-evidence-green
+  - id: memory-checkpoint
+    owner: maestro-manager
+    outputs: [state, decisions, learnings, session-checkpoint, next-action]
+    gate: resumable-context-ready
   - id: release
     owner: maestro-release-engineer
     outputs: [release-decision, rollback-plan, handoff]
