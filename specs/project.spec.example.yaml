@@ -1,0 +1,35 @@
+version: 1
+project:
+  name: Example Product
+  type: saas
+  owner: product-owner
+  status: discovery
+problem:
+  audience: ""
+  pain: ""
+  desired_outcome: ""
+scope:
+  in: []
+  out: []
+requirements:
+  functional: []
+  non_functional:
+    accessibility: WCAG-2.2-AA
+    performance: web-vitals
+    security: OWASP-ASVS-L1
+architecture:
+  frontend: nextjs
+  backend: supabase
+  database: postgres
+  deployment: vercel
+quality_gates:
+  unit: true
+  integration: true
+  smoke: true
+  ui_ux: true
+  accessibility: true
+  security: true
+  build: true
+release:
+  environments: [development, preview, production]
+  rollback: required
