@@ -29,40 +29,41 @@ jobs:
           ref: agent/ai-development-os
           fetch-depth: 0
 
-      - name: Reconstruct and validate repository
+      - name: Verify bootstrap parts
+        shell: bash
+        run: |
+          shopt -s nullglob
+          parts=(.maestro-bootstrap.part-*)
+          test "${#parts[@]}" -eq 8
+          printf '%s\n' "${parts[@]}"
+
+      - name: Reconstruct archive
         shell: bash
         run: |
           set -euo pipefail
-
-          shopt -s nullglob
-          parts=(.maestro-bootstrap.part-*)
-          if [ "${#parts[@]}" -eq 0 ]; then
-            echo "Bootstrap payload already consumed."
-            exit 0
-          fi
-
-          expected=8
-          if [ "${#parts[@]}" -ne "$expected" ]; then
-            echo "Expected $expected bootstrap parts; found ${#parts[@]}."
-            exit 1
-          fi
-
-          cat "${parts[@]}" > /tmp/maestro-bootstrap.tar.gz.b64
+          cat .maestro-bootstrap.part-* > /tmp/maestro-bootstrap.tar.gz.b64
           base64 --decode /tmp/maestro-bootstrap.tar.gz.b64 > /tmp/maestro-bootstrap.tar.gz
+          gzip -t /tmp/maestro-bootstrap.tar.gz
+
+      - name: Extract repository
+        shell: bash
+        run: |
+          set -euo pipefail
           tar -xzf /tmp/maestro-bootstrap.tar.gz -C .
-
           chmod +x installers/*.sh scripts/*.sh
-          python scripts/validate_maestro.py
-          python scripts/validate_pack.py
 
+      - name: Validate Maestro structure
+        run: python scripts/validate_maestro.py
+
+      - name: Validate complete pack
+        run: python scripts/validate_pack.py
+
+      - name: Commit reconstructed repository
+        shell: bash
+        run: |
+          set -euo pipefail
           rm -f .maestro-bootstrap.part-*
           git add -A
-
-          if git diff --cached --quiet; then
-            echo "No bootstrap changes to commit."
-            exit 0
-          fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "bootstrap Vibe Code Maestro"
