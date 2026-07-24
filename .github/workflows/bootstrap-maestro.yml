@@ -7,17 +7,26 @@ on:
     paths:
       - ".maestro-bootstrap.part-*"
       - ".github/workflows/bootstrap-maestro.yml"
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout source branch
         uses: actions/checkout@v4
         with:
+          ref: agent/ai-development-os
           fetch-depth: 0
 
       - name: Reconstruct and validate repository
@@ -57,4 +66,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "bootstrap Vibe Code Maestro"
-          git push
+          git push origin HEAD:agent/ai-development-os
