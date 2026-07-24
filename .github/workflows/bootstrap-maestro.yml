@@ -1,12 +1,6 @@
 name: Bootstrap Vibe Code Maestro
 
 on:
-  push:
-    branches:
-      - agent/ai-development-os
-    paths:
-      - ".maestro-bootstrap.part-*"
-      - ".github/workflows/bootstrap-maestro.yml"
   pull_request:
     branches:
       - main
@@ -18,6 +12,10 @@ on:
 permissions:
   contents: write
   pull-requests: read
+
+concurrency:
+  group: maestro-bootstrap-agent-ai-development-os
+  cancel-in-progress: true
 
 jobs:
   bootstrap:
@@ -58,13 +56,22 @@ jobs:
       - name: Validate complete pack
         run: python scripts/validate_pack.py
 
-      - name: Commit reconstructed repository
+      - name: Stage reconstructed repository
         shell: bash
         run: |
           set -euo pipefail
           rm -f .maestro-bootstrap.part-*
           git add -A
+          git status --short
+
+      - name: Commit reconstructed repository
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "bootstrap Vibe Code Maestro"
-          git push origin HEAD:agent/ai-development-os
+
+      - name: Push reconstructed repository
+        shell: bash
+        run: git push origin HEAD:agent/ai-development-os
