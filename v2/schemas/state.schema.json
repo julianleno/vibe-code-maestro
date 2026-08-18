@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maestro-next.local/schemas/state.schema.json",
+  "title": "Maestro Next Compact Project State",
+  "type": "object",
+  "required": ["project", "default_branch", "active_workstreams", "updated_at"],
+  "properties": {
+    "project": { "type": "string" },
+    "repository": { "type": ["string", "null"] },
+    "default_branch": { "type": "string" },
+    "default_branch_sha": { "type": ["string", "null"] },
+    "freshness": {
+      "type": "object",
+      "properties": {
+        "verified_at": { "type": ["string", "null"] },
+        "requires_live_recheck": { "type": "boolean", "default": true }
+      },
+      "additionalProperties": false
+    },
+    "priority_order": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "active_workstreams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "status", "front_ref"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "enum": ["planned", "active", "blocked", "review", "waiting-human", "done"] },
+          "agent": { "type": ["string", "null"] },
+          "front_ref": { "type": "string" },
+          "depends_on": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "next_human_decisions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "updated_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

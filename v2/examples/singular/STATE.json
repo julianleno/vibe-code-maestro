@@ -1,0 +1,39 @@
+{
+  "project": "singular-hub",
+  "repository": "julianleno/singular",
+  "default_branch": "main",
+  "default_branch_sha": "8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d",
+  "freshness": {
+    "verified_at": "2026-08-18T16:20:00-03:00",
+    "requires_live_recheck": true
+  },
+  "priority_order": ["XBZ", "catalog-proposal", "public-pdf"],
+  "active_workstreams": [
+    {
+      "id": "247",
+      "status": "active",
+      "agent": "claude-low",
+      "front_ref": "fronts/247.json",
+      "depends_on": []
+    },
+    {
+      "id": "262",
+      "status": "review",
+      "agent": "agent-b",
+      "front_ref": "fronts/262.json",
+      "depends_on": []
+    },
+    {
+      "id": "309",
+      "status": "active",
+      "agent": "kimi-k3",
+      "front_ref": "fronts/309.json",
+      "depends_on": []
+    }
+  ],
+  "next_human_decisions": [
+    "Choose/approve PDF visual direction for #309 before production implementation",
+    "Review #310 independently before any merge authorization"
+  ],
+  "updated_at": "2026-08-18T16:20:00-03:00"
+}

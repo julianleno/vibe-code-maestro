@@ -1,0 +1,55 @@
+{
+  "id": "309",
+  "title": "Public proposal PDF — premium A4 + real download",
+  "issue": 309,
+  "pr": 311,
+  "status": "active",
+  "agent": "kimi-k3",
+  "objective": "Approve a new visual direction through a static HTML A4 gate before any production PDF renderer or route integration.",
+  "definition_of_done": [
+    "Reuse technical audit from #311 where still valid",
+    "Reject the #311 Editorial Navy visual direction as canonical design",
+    "Produce static HTML/CSS mock directions with fictitious data",
+    "Render representative screenshots",
+    "Stop for explicit human visual approval",
+    "Do not implement production renderer before approval"
+  ],
+  "depends_on": [],
+  "canonical_refs": [
+    "RULE:VISUAL_GATE_BEFORE_PRODUCTION_CODE",
+    "RULE:PUBLIC_PDF_MUST_NOT_DUPLICATE_COMMERCIAL_LOGIC",
+    "BRAND:SINGULAR_DESIGN_SYSTEM"
+  ],
+  "procedure_refs": ["PROCEDURE:VISUAL_GATE"],
+  "gotcha_refs": [
+    "GOTCHA:WINDOW_PRINT_IS_NOT_REAL_PDF_DOWNLOAD",
+    "GOTCHA:PR311_VISUAL_DIRECTION_REJECTED"
+  ],
+  "latest_handoff": "PR #311 contains useful technical research; its Editorial Navy visual direction was rejected by the human.",
+  "reservations": {
+    "owned": ["docs/previews/public-quote-pdf-v2/**"],
+    "forbidden": ["apps/hub/**", "supabase/**"]
+  },
+  "authority": {
+    "inspect": true,
+    "branch_write": true,
+    "push_branch": false,
+    "open_draft_pr": false,
+    "merge": false,
+    "close_issue": false,
+    "deploy_production": false,
+    "remote_db": false,
+    "destructive_remote_data": false
+  },
+  "live_state": {
+    "base_sha": "8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d",
+    "head_sha": "eb29b6f1220066a870d53d78e2543c7fcc79867a",
+    "verified_at": "2026-08-18T16:20:00-03:00",
+    "requires_recheck": true
+  },
+  "blockers": [
+    "Production implementation intentionally blocked until explicit visual approval"
+  ],
+  "next_action": "Kimi K3 creates the V2 static HTML visual gate locally, renders screenshots, then stops for Julian's decision.",
+  "updated_at": "2026-08-18T16:20:00-03:00"
+}

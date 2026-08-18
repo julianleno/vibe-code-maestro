@@ -1,0 +1,57 @@
+{
+  "id": "247",
+  "title": "SH-257 — controlled catalog proposal review/publication",
+  "issue": 247,
+  "pr": 308,
+  "status": "active",
+  "agent": "claude-low",
+  "objective": "Finish only the audited UI gaps for explicit publication/unpublication, removal confirmation, staff-only Singular/XBZ origin context, and published_at correctness.",
+  "definition_of_done": [
+    "Publication visibility changes require explicit confirmed actions",
+    "Removing catalog_item requires confirmation",
+    "Staff can distinguish Singular vs XBZ origin without public leakage",
+    "published_at behavior follows existing helper contract",
+    "Live-state editing risk remains honestly documented",
+    "No new publication-versioning architecture is invented"
+  ],
+  "depends_on": [],
+  "canonical_refs": [
+    "ADR:SINGLE_CATALOG_COMPOSITION",
+    "ADR:XBZ_HISTORICAL_CATALOG_SNAPSHOT",
+    "RULE:NO_AUTOPUBLICATION"
+  ],
+  "procedure_refs": ["PROCEDURE:INDEPENDENT_PR_QA"],
+  "gotcha_refs": ["GOTCHA:PUBLISHED_CATALOG_ITEMS_ARE_LIVE_STATE"],
+  "latest_handoff": "PR #308 currently still shows audit+pgTAP head; executor is expected to rebase and implement the constrained gaps.",
+  "reservations": {
+    "owned": [
+      "apps/hub/src/components/products/products-workspace.tsx",
+      "apps/hub/src/lib/catalog-publication.ts",
+      "docs/integrations/xbz/CATALOG_PROPOSAL_REVIEW_AUDIT.md",
+      "supabase/tests/catalog_proposal_review_test.sql"
+    ],
+    "forbidden": ["apps/hub/src/lib/xbz/quote-add*", "apps/hub/src/components/products/xbz-add-to-quote-action*"]
+  },
+  "authority": {
+    "inspect": true,
+    "branch_write": true,
+    "push_branch": true,
+    "open_draft_pr": true,
+    "merge": false,
+    "close_issue": false,
+    "deploy_production": false,
+    "remote_db": false,
+    "destructive_remote_data": false
+  },
+  "live_state": {
+    "base_sha": "d8ff86b5c03c6b805dbc7cd37f96763ef06c4726",
+    "head_sha": "5cdaabca481602f347291001ebcc7ba56e2a9e68",
+    "verified_at": "2026-08-18T16:20:00-03:00",
+    "requires_recheck": true
+  },
+  "blockers": [
+    "PR #308 live GitHub head has not yet reflected the expected post-#307 rebase/implementation at fixture capture time"
+  ],
+  "next_action": "Wait for Claude's new handoff/head, then independently QA the new #308 state.",
+  "updated_at": "2026-08-18T16:20:00-03:00"
+}
