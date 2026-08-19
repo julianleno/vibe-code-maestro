@@ -1,0 +1,74 @@
+{
+  "id": "309",
+  "title": "Public proposal PDF — premium A4 + real download",
+  "issue": 309,
+  "pr": 312,
+  "status": "waiting-human",
+  "agent": "kimi-k3",
+  "objective": "Obtain explicit human visual approval of the refined Direction B static A4 mock before any production ViewModel, renderer, route, dependency, or Supabase integration begins.",
+  "definition_of_done": [
+    "Reuse technical audit from #311 where still valid",
+    "Keep Direction A rejected as historical only",
+    "Direction B provides static HTML/CSS mocks for short, medium, and long proposals",
+    "Rendered screenshots demonstrate the refined visual system and pagination",
+    "Human explicitly approves Direction B for implementation",
+    "No production renderer is implemented before that approval"
+  ],
+  "depends_on": [],
+  "canonical_refs": [
+    "RULE:VISUAL_GATE_BEFORE_PRODUCTION_CODE",
+    "RULE:PUBLIC_PDF_MUST_NOT_DUPLICATE_COMMERCIAL_LOGIC",
+    "BRAND:SINGULAR_DESIGN_SYSTEM"
+  ],
+  "procedure_refs": ["PROCEDURE:VISUAL_GATE"],
+  "gotcha_refs": [
+    "GOTCHA:WINDOW_PRINT_IS_NOT_REAL_PDF_DOWNLOAD",
+    "GOTCHA:PR311_VISUAL_DIRECTION_REJECTED"
+  ],
+  "latest_handoff": "PR #312 head eb9676fb3039f2f3234c0041d1b8ed5c688f3902 contains the refined Direction B only in docs/previews/public-quote-pdf-v2. Kimi increased product prominence and legibility, added a commercial investment teaser on page 1, introduced restrained Singular yellow accents, tested a non-square real image frame, and re-rendered short/medium/long layouts without overflow. Production code remains untouched. Direction A is discarded; Direction B still awaits explicit final visual approval.",
+  "reservations": {
+    "owned": ["docs/previews/public-quote-pdf-v2/**"],
+    "forbidden": ["apps/hub/**", "supabase/**"]
+  },
+  "authority": {
+    "inspect": true,
+    "branch_write": true,
+    "push_branch": true,
+    "open_draft_pr": false,
+    "merge": false,
+    "close_issue": false,
+    "deploy_production": false,
+    "remote_db": false,
+    "destructive_remote_data": false,
+    "write_scope": {
+      "local": true,
+      "paths": ["docs/previews/public-quote-pdf-v2/**"],
+      "commit": true,
+      "push": true
+    },
+    "collaboration": {
+      "open_draft_pr": false,
+      "update_draft_pr": true,
+      "comment_evidence": true
+    }
+  },
+  "live_state": {
+    "base_sha": "8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d",
+    "head_sha": "eb9676fb3039f2f3234c0041d1b8ed5c688f3902",
+    "verified_at": "2026-08-19T07:29:00-03:00",
+    "requires_recheck": true,
+    "source": "GitHub PR #312 + exact-head CI #824",
+    "truth_class": "LIVE_VERIFIED"
+  },
+  "control_plane_state": {
+    "truth_class": "CONTROL_PLANE_CANONICAL",
+    "verified_at": "2026-08-19T07:29:00-03:00",
+    "contradiction_detected": false
+  },
+  "blockers": [
+    "Production implementation is intentionally blocked until explicit human visual approval",
+    "PR #312 is based on 8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d while current main is 00a97ddaa7f8c869ff1929f6c963906f3d5b845e; visual review may proceed, but production implementation must start from fresh main or rebase first"
+  ],
+  "next_action": "Julian reviews the refined Direction B screenshots/HTML. If he explicitly approves implementation, compile a new production mission from fresh main; otherwise Kimi revises static mocks only and stops again.",
+  "updated_at": "2026-08-19T07:29:00-03:00"
+}

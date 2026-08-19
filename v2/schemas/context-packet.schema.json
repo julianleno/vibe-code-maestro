@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maestro-next.local/schemas/context-packet.schema.json",
+  "title": "Maestro Next Mission Context Packet",
+  "type": "object",
+  "required": ["packet_version", "role", "workstream", "objective", "authority", "next_action", "stop_condition"],
+  "properties": {
+    "packet_version": { "type": "string" },
+    "role": { "enum": ["orchestrator", "executor", "qa", "designer"] },
+    "project": { "type": ["string", "null"] },
+    "workstream": { "type": "string" },
+    "objective": { "type": "string" },
+    "canonical": { "type": "array", "items": { "type": "string" } },
+    "live_verified": { "type": "array", "items": { "type": "string" } },
+    "live_to_verify": { "type": "array", "items": { "type": "string" } },
+    "executor_claims": { "type": "array", "items": { "type": "string" } },
+    "inferences": { "type": "array", "items": { "type": "string" } },
+    "reservations": {
+      "type": "object",
+      "properties": {
+        "owned": { "type": "array", "items": { "type": "string" } },
+        "forbidden": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "authority": { "type": "object" },
+    "forbidden_actions": { "type": "array", "items": { "type": "string" } },
+    "next_action": { "type": "string" },
+    "stop_condition": { "type": "string" },
+    "additional_refs": { "type": "array", "items": { "type": "string" } },
+    "context_telemetry": {
+      "type": "object",
+      "properties": {
+        "files_considered": { "type": ["integer", "null"], "minimum": 0 },
+        "files_loaded": { "type": ["integer", "null"], "minimum": 0 },
+        "bytes_considered": { "type": ["integer", "null"], "minimum": 0 },
+        "bytes_loaded": { "type": ["integer", "null"], "minimum": 0 },
+        "estimated_tokens_loaded": { "type": ["integer", "null"], "minimum": 0 },
+        "estimated_tokens_avoided": { "type": ["integer", "null"], "minimum": 0 },
+        "reduction_ratio": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

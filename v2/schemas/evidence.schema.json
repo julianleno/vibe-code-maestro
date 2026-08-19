@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maestro-next.local/schemas/evidence.schema.json",
+  "title": "Maestro Next Evidence Record",
+  "type": "object",
+  "required": ["criterion", "result", "truth_class", "evidence_level", "sources"],
+  "properties": {
+    "criterion": { "type": "string" },
+    "result": { "enum": ["pass", "fail", "blocked", "inconclusive", "not-applicable"] },
+    "truth_class": { "enum": ["LIVE_VERIFIED", "CONTROL_PLANE_CANONICAL", "EXECUTOR_CLAIM", "INFERENCE"] },
+    "evidence_level": { "enum": ["E0", "E1", "E2", "E3", "E4"] },
+    "critical": { "type": "boolean", "default": false },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "reference"],
+        "properties": {
+          "kind": { "enum": ["implementation", "test", "ci", "runtime", "github", "human", "control-plane", "executor", "other"] },
+          "reference": { "type": "string" },
+          "head_sha": { "type": ["string", "null"] },
+          "verified_at": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "uncertainty": { "type": ["string", "null"] },
+    "verified_at": { "type": ["string", "null"] }
+  },
+  "additionalProperties": false
+}

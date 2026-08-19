@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maestro-next.local/schemas/workstream.schema.json",
+  "title": "Maestro Next Workstream",
+  "type": "object",
+  "required": ["id", "title", "status", "objective", "authority", "updated_at"],
+  "properties": {
+    "id": { "type": "string" },
+    "title": { "type": "string" },
+    "issue": { "type": ["integer", "null"] },
+    "pr": { "type": ["integer", "null"] },
+    "status": { "enum": ["planned", "active", "blocked", "review", "waiting-human", "done"] },
+    "agent": { "type": ["string", "null"] },
+    "objective": { "type": "string" },
+    "definition_of_done": { "type": "array", "items": { "type": "string" } },
+    "depends_on": { "type": "array", "items": { "type": "string" } },
+    "canonical_refs": { "type": "array", "items": { "type": "string" } },
+    "procedure_refs": { "type": "array", "items": { "type": "string" } },
+    "gotcha_refs": { "type": "array", "items": { "type": "string" } },
+    "latest_handoff": { "type": ["string", "null"] },
+    "reservations": {
+      "type": "object",
+      "properties": {
+        "owned": { "type": "array", "items": { "type": "string" } },
+        "forbidden": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "authority": {
+      "type": "object",
+      "required": ["inspect", "branch_write", "push_branch", "open_draft_pr", "merge", "close_issue", "deploy_production", "remote_db"],
+      "properties": {
+        "inspect": { "type": "boolean" },
+        "branch_write": { "type": "boolean" },
+        "push_branch": { "type": "boolean" },
+        "open_draft_pr": { "type": "boolean" },
+        "merge": { "type": "boolean" },
+        "close_issue": { "type": "boolean" },
+        "deploy_production": { "type": "boolean" },
+        "remote_db": { "type": "boolean" },
+        "destructive_remote_data": { "type": "boolean", "default": false },
+        "write_scope": {
+          "type": "object",
+          "properties": {
+            "local": { "type": "boolean", "default": false },
+            "paths": { "type": "array", "items": { "type": "string" } },
+            "commit": { "type": "boolean", "default": false },
+            "push": { "type": "boolean", "default": false }
+          },
+          "additionalProperties": false
+        },
+        "collaboration": {
+          "type": "object",
+          "properties": {
+            "open_draft_pr": { "type": "boolean", "default": false },
+            "update_draft_pr": { "type": "boolean", "default": false },
+            "comment_evidence": { "type": "boolean", "default": false }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "live_state": {
+      "type": "object",
+      "properties": {
+        "base_sha": { "type": ["string", "null"] },
+        "head_sha": { "type": ["string", "null"] },
+        "verified_at": { "type": ["string", "null"] },
+        "requires_recheck": { "type": "boolean", "default": true },
+        "source": { "type": ["string", "null"] },
+        "truth_class": { "enum": ["LIVE_VERIFIED", "CONTROL_PLANE_CANONICAL", "EXECUTOR_CLAIM", "INFERENCE"] }
+      },
+      "additionalProperties": false
+    },
+    "control_plane_state": {
+      "type": "object",
+      "properties": {
+        "truth_class": { "const": "CONTROL_PLANE_CANONICAL" },
+        "verified_at": { "type": ["string", "null"] },
+        "contradiction_detected": { "type": "boolean", "default": false }
+      },
+      "additionalProperties": false
+    },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "next_action": { "type": ["string", "null"] },
+    "updated_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

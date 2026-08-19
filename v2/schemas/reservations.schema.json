@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://maestro-next.local/schemas/reservations.schema.json",
+  "title": "Maestro Next Active Reservations",
+  "type": "object",
+  "required": ["reservations", "updated_at"],
+  "properties": {
+    "reservations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "workstream", "mode"],
+        "properties": {
+          "pattern": { "type": "string" },
+          "workstream": { "type": "string" },
+          "agent": { "type": ["string", "null"] },
+          "mode": { "enum": ["exclusive", "coordinated", "read-only"] },
+          "reason": { "type": ["string", "null"] },
+          "expires_when": { "type": ["string", "null"] },
+          "status": { "enum": ["canonical", "active", "candidate", "superseded", "historical"] },
+          "source": { "type": ["string", "null"] },
+          "verified_at": { "type": ["string", "null"] },
+          "contradiction_detected": { "type": "boolean", "default": false }
+        },
+        "additionalProperties": false
+      }
+    },
+    "updated_at": { "type": "string" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,54 @@
+{
+  "id": "262",
+  "title": "SH-259 — XBZ selective import + add to quote",
+  "issue": 262,
+  "pr": 310,
+  "status": "review",
+  "agent": "agent-b",
+  "objective": "Complete Part B: add selected/revalidated XBZ products to an existing draft quote through the existing Product-first quote_item snapshot flow.",
+  "definition_of_done": [
+    "Explicit confirmation is the first write boundary",
+    "Real quote quantity drives XBZ revalidation",
+    "Product import/reconciliation reuses Part A",
+    "quote_item stores historical snapshot",
+    "No automatic sale/order/publication/send",
+    "Independent QA approves the exact PR head"
+  ],
+  "depends_on": [],
+  "canonical_refs": [
+    "ADR:XBZ_ON_DEMAND",
+    "ADR:XBZ_PRODUCT_FIRST_FOR_QUOTES",
+    "ADR:QUOTE_ITEM_IS_HISTORICAL_SNAPSHOT"
+  ],
+  "procedure_refs": ["PROCEDURE:INDEPENDENT_PR_QA"],
+  "gotcha_refs": ["GOTCHA:XBZ_ADJUSTED_QUANTITY_IS_NOT_STOCK"],
+  "latest_handoff": "PR #310 body / agent-b handoff",
+  "reservations": {
+    "owned": [
+      "apps/hub/src/components/products/xbz-add-to-quote-action*",
+      "apps/hub/src/lib/xbz/quote-add*",
+      "docs/integrations/xbz/QUOTE_ADD_PART_B.md"
+    ],
+    "forbidden": ["apps/hub/src/components/products/products-workspace.tsx"]
+  },
+  "authority": {
+    "inspect": true,
+    "branch_write": true,
+    "push_branch": true,
+    "open_draft_pr": true,
+    "merge": false,
+    "close_issue": false,
+    "deploy_production": false,
+    "remote_db": false,
+    "destructive_remote_data": false
+  },
+  "live_state": {
+    "base_sha": "8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d",
+    "head_sha": "e770f35747f02861c28ac2e98aa59ca02a7501dd",
+    "verified_at": "2026-08-18T16:20:00-03:00",
+    "requires_recheck": true
+  },
+  "blockers": [],
+  "next_action": "Independent QA of PR #310 exact current head; do not merge or close #262 without human authorization.",
+  "updated_at": "2026-08-18T16:20:00-03:00"
+}
