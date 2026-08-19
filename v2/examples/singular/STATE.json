@@ -2,9 +2,9 @@
   "project": "singular-hub",
   "repository": "julianleno/singular",
   "default_branch": "main",
-  "default_branch_sha": "8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d",
+  "default_branch_sha": "00a97ddaa7f8c869ff1929f6c963906f3d5b845e",
   "freshness": {
-    "verified_at": "2026-08-18T16:20:00-03:00",
+    "verified_at": "2026-08-19T07:29:00-03:00",
     "requires_live_recheck": true
   },
   "priority_order": ["XBZ", "catalog-proposal", "public-pdf"],
@@ -12,28 +12,22 @@
     {
       "id": "247",
       "status": "active",
-      "agent": "claude-low",
+      "agent": "agent-b",
       "front_ref": "fronts/247.json",
       "depends_on": []
     },
     {
-      "id": "262",
-      "status": "review",
-      "agent": "agent-b",
-      "front_ref": "fronts/262.json",
-      "depends_on": []
-    },
-    {
       "id": "309",
-      "status": "active",
+      "status": "waiting-human",
       "agent": "kimi-k3",
       "front_ref": "fronts/309.json",
       "depends_on": []
     }
   ],
   "next_human_decisions": [
-    "Choose/approve PDF visual direction for #309 before production implementation",
-    "Review #310 independently before any merge authorization"
+    "After the updated pgTAP on #308 passes and exact-head validation is green, decide whether to authorize merge #308",
+    "Review the refined Direction B in #312; only explicit visual approval authorizes production PDF implementation",
+    "After #308 is merged, run #248 XBZ end-to-end QA before closing #231; issue closures remain explicit human mutations"
   ],
-  "updated_at": "2026-08-18T16:20:00-03:00"
+  "updated_at": "2026-08-19T07:29:00-03:00"
 }

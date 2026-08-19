@@ -4,15 +4,17 @@
   "issue": 247,
   "pr": 308,
   "status": "active",
-  "agent": "claude-low",
-  "objective": "Finish only the audited UI gaps for explicit publication/unpublication, removal confirmation, staff-only Singular/XBZ origin context, and published_at correctness.",
+  "agent": "agent-b",
+  "objective": "Close only the final pgTAP evidence gate on the existing #308 after the functional SH-257 gaps passed cross-review; do not change functional behavior unless the runtime test proves a real blocker.",
   "definition_of_done": [
-    "Publication visibility changes require explicit confirmed actions",
-    "Removing catalog_item requires confirmation",
+    "Publication/unpublication remains explicitly confirmed",
+    "Removing catalog_item remains explicitly confirmed",
     "Staff can distinguish Singular vs XBZ origin without public leakage",
-    "published_at behavior follows existing helper contract",
+    "published_at behavior follows the existing helper contract",
     "Live-state editing risk remains honestly documented",
-    "No new publication-versioning architecture is invented"
+    "Updated catalog_proposal_review_test.sql executes successfully in a local/disposable environment",
+    "Exact final head has applicable CI green",
+    "No remote DB, XBZ production call, deploy, merge, or issue close"
   ],
   "depends_on": [],
   "canonical_refs": [
@@ -22,36 +24,60 @@
   ],
   "procedure_refs": ["PROCEDURE:INDEPENDENT_PR_QA"],
   "gotcha_refs": ["GOTCHA:PUBLISHED_CATALOG_ITEMS_ARE_LIVE_STATE"],
-  "latest_handoff": "PR #308 currently still shows audit+pgTAP head; executor is expected to rebase and implement the constrained gaps.",
+  "latest_handoff": "Cross-review found the functional implementation PASS on #308 head 0e347e5758e88cf4b4761788ee71b5b9f98afa72. The only missing gate is runtime pgTAP. The previous SH-200 validation failed at supabase start because Docker was unavailable; the human has now reopened Docker and assigned Agent B to rerun only this evidence gate.",
   "reservations": {
     "owned": [
       "apps/hub/src/components/products/products-workspace.tsx",
-      "apps/hub/src/lib/catalog-publication.ts",
+      "apps/hub/src/components/products/products-workspace-catalog-review.test.tsx",
       "docs/integrations/xbz/CATALOG_PROPOSAL_REVIEW_AUDIT.md",
       "supabase/tests/catalog_proposal_review_test.sql"
     ],
-    "forbidden": ["apps/hub/src/lib/xbz/quote-add*", "apps/hub/src/components/products/xbz-add-to-quote-action*"]
+    "forbidden": [
+      "apps/hub/src/lib/xbz/quote-add*",
+      "apps/hub/src/components/products/xbz-add-to-quote-action*"
+    ]
   },
   "authority": {
     "inspect": true,
     "branch_write": true,
     "push_branch": true,
-    "open_draft_pr": true,
+    "open_draft_pr": false,
     "merge": false,
     "close_issue": false,
     "deploy_production": false,
     "remote_db": false,
-    "destructive_remote_data": false
+    "destructive_remote_data": false,
+    "write_scope": {
+      "local": true,
+      "paths": [
+        "docs/integrations/xbz/CATALOG_PROPOSAL_REVIEW_AUDIT.md",
+        "supabase/tests/catalog_proposal_review_test.sql"
+      ],
+      "commit": true,
+      "push": true
+    },
+    "collaboration": {
+      "open_draft_pr": false,
+      "update_draft_pr": true,
+      "comment_evidence": true
+    }
   },
   "live_state": {
-    "base_sha": "d8ff86b5c03c6b805dbc7cd37f96763ef06c4726",
-    "head_sha": "5cdaabca481602f347291001ebcc7ba56e2a9e68",
-    "verified_at": "2026-08-18T16:20:00-03:00",
-    "requires_recheck": true
+    "base_sha": "00a97ddaa7f8c869ff1929f6c963906f3d5b845e",
+    "head_sha": "0e347e5758e88cf4b4761788ee71b5b9f98afa72",
+    "verified_at": "2026-08-19T07:29:00-03:00",
+    "requires_recheck": true,
+    "source": "GitHub PR #308 + CI #823 + SH-200 Final Validation #156",
+    "truth_class": "LIVE_VERIFIED"
+  },
+  "control_plane_state": {
+    "truth_class": "CONTROL_PLANE_CANONICAL",
+    "verified_at": "2026-08-19T07:29:00-03:00",
+    "contradiction_detected": false
   },
   "blockers": [
-    "PR #308 live GitHub head has not yet reflected the expected post-#307 rebase/implementation at fixture capture time"
+    "The updated pgTAP suite has not yet produced a runtime PASS; rerun is in progress after Docker was reopened"
   ],
-  "next_action": "Wait for Claude's new handoff/head, then independently QA the new #308 state.",
-  "updated_at": "2026-08-18T16:20:00-03:00"
+  "next_action": "Agent B reruns only the updated pgTAP in a local/disposable Supabase environment, performs only stale-comment cleanup if needed, verifies the exact new head, and stops without merge or issue close.",
+  "updated_at": "2026-08-19T07:29:00-03:00"
 }

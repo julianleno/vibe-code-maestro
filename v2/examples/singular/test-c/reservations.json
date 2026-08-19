@@ -1,0 +1,37 @@
+{
+  "reservations": [
+    {
+      "pattern": "apps/hub/src/components/products/products-workspace.tsx",
+      "workstream": "247",
+      "agent": "claude-low",
+      "mode": "exclusive",
+      "reason": "SH-257 publication/removal/origin UI work",
+      "expires_when": "#308 is merged/closed or reservation is explicitly released"
+    },
+    {
+      "pattern": "apps/hub/src/lib/xbz/quote-add*",
+      "workstream": "262",
+      "agent": "agent-b",
+      "mode": "exclusive",
+      "reason": "SH-259 Part B quote handoff",
+      "expires_when": "#310 is merged/closed or reservation is explicitly released"
+    },
+    {
+      "pattern": "apps/hub/src/components/products/xbz-add-to-quote-action*",
+      "workstream": "262",
+      "agent": "agent-b",
+      "mode": "exclusive",
+      "reason": "SH-259 Part B quote UI",
+      "expires_when": "#310 is merged/closed or reservation is explicitly released"
+    },
+    {
+      "pattern": "docs/previews/public-quote-pdf-v2/**",
+      "workstream": "309",
+      "agent": "kimi-k3",
+      "mode": "exclusive",
+      "reason": "Static visual gate only",
+      "expires_when": "visual decision is completed or workstream changes owner"
+    }
+  ],
+  "updated_at": "2026-08-18T16:20:00-03:00"
+}
