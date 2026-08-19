@@ -1,7 +1,7 @@
 ---
 name: maestro-next-orchestrator
-description: Operate a persistent multi-agent software-delivery control plane with progressive memory loading, workstream isolation, independent QA, GitHub reality checks, human authority gates, and compact cross-agent handoffs.
-version: 0.2.0-lab
+description: Operate a persistent multi-agent software-delivery control plane with progressive memory loading, isolated worktrees, independent QA, GitHub reality checks, human authority gates, and compact cross-agent handoffs.
+version: 0.2.1-lab
 license: MIT
 ---
 
@@ -9,10 +9,17 @@ license: MIT
 
 ## Mission
 
-Keep multiple AI coding agents aligned across long-running projects without relying on one model's context window.
+Keep multiple AI coding agents aligned across long-running projects without relying on one model's context window or a shared mutable working tree.
 
 ## Boot order
 
+0. Establish a clean workspace boundary using `core/workspace-model.md`:
+   - verify the canonical remote;
+   - `git fetch --prune origin`;
+   - inspect cleanliness before reuse;
+   - prefer one isolated worktree per agent/workstream/role;
+   - record the refreshed `origin/main` SHA;
+   - never hide dirty/diverged state with an opportunistic stash/reset.
 1. Read the smallest available boot/state document.
 2. Identify the requested project and workstream.
 3. Load only memory referenced by that workstream.
@@ -21,6 +28,8 @@ Keep multiple AI coding agents aligned across long-running projects without rely
 6. Compile a role-specific mission packet.
 
 Do not preload full histories, transcripts, archived handoffs, or all decisions.
+
+A local `main` checkout is not operational truth. GitHub/live remote state outranks it for freshness-sensitive facts.
 
 ## Memory hierarchy
 
@@ -51,17 +60,18 @@ For technical QA use evidence levels E0–E4. Critical acceptance criteria requi
 
 For every workstream:
 
-1. define objective and acceptance criteria;
-2. declare dependencies and reserved files;
-3. assign the narrowest suitable agent role;
-4. provide a bounded mission packet;
-5. require a structured factual handoff;
-6. independently verify head/base/diff/tests/CI/runtime as applicable;
-7. classify scope/reservation mismatches rather than assuming every mismatch is implementation scope creep;
-8. issue a surgical correction mission for concrete blockers;
-9. stop at the required human gate before privileged mutations;
-10. after merge/release, recompute affected workstreams and reservations;
-11. consolidate durable learnings without storing full transcripts.
+1. renew/verify the workspace boundary and remote base;
+2. define objective and acceptance criteria;
+3. declare dependencies and reserved files;
+4. assign the narrowest suitable agent role and isolated workspace;
+5. provide a bounded mission packet;
+6. require a structured factual handoff including workspace/base/head provenance;
+7. independently verify head/base/diff/tests/CI/runtime as applicable;
+8. classify scope/reservation mismatches rather than assuming every mismatch is implementation scope creep;
+9. issue a surgical correction mission for concrete blockers;
+10. stop at the required human gate before privileged mutations;
+11. after merge/release, recompute affected workstreams/reservations and retire completed workspaces when safe;
+12. consolidate durable learnings without storing full transcripts.
 
 ## Human authority gates
 
@@ -86,6 +96,8 @@ Do not state that a test, workflow, runtime behavior, head SHA, mergeability sta
 
 A critical criterion cannot be marked PASS merely because a test file exists or a handoff says it passed.
 
+Local build artifacts from another agent's workspace are not independent evidence.
+
 ## Parallel-agent policy
 
 Before assigning or editing:
@@ -93,7 +105,16 @@ Before assigning or editing:
 - inspect active workstreams;
 - inspect changed files of overlapping PRs;
 - check reservations;
+- establish a separate worktree/clone boundary for each active role;
 - stop on material overlap unless a safe ownership boundary is explicitly established.
+
+Never let two active agents share one working tree. Implementer, auditor, and QA may share the canonical GitHub repository and immutable SHAs, but not uncommitted files, stashes, checked-out branches, generated artifacts, or a mutable work directory.
+
+For independent audit:
+
+`fresh origin/main workspace → freeze independent findings → inspect implementation head → cross-review`
+
+Do not let the auditor begin by reading the implementer's working tree/branch when independence is part of the evidence model.
 
 When a legitimate mission file is outside recorded reservations, apply the drift decision tree:
 
@@ -101,11 +122,34 @@ When a legitimate mission file is outside recorded reservations, apply the drift
 
 After any merge into the shared base:
 
+- refresh remote refs;
 - refresh base SHA;
-- identify branches now behind;
+- identify branches/worktrees now behind;
 - rebase/stabilize only the affected workstreams;
 - rerun applicable validation on their new heads;
-- update affected state/reservations.
+- update affected state/reservations;
+- create fresh workspaces for new workstreams instead of inheriting stale task directories by default.
+
+## Workspace lifecycle
+
+Use `core/workspace-model.md` as the canonical procedure.
+
+Default posture:
+
+```text
+persistent memory
++
+fresh remote fetch
++
+isolated role worktree
++
+exact base SHA
+→ bounded mission
+```
+
+A dirty/diverged workspace is an observable condition, not something an agent should silently normalize away.
+
+Existing per-agent clones are acceptable when they are independently refreshed and isolated; Git worktrees are preferred when one canonical clone can safely host multiple isolated checkouts.
 
 ## Visual gate
 
@@ -124,6 +168,7 @@ The context compiler should include:
 - current objective;
 - resolved summaries of canonical decisions that are necessary to act;
 - active constraints/gotchas;
+- workspace bootstrap requirements;
 - reservations and dependencies;
 - acceptance criteria;
 - forbidden mutations;
@@ -136,3 +181,5 @@ It should exclude unrelated closed workstreams and narrative history.
 ## Core rule
 
 **Persistent memory accelerates discovery; it never excuses verification.**
+
+**Persistent context does not justify persistent workspace state.**
