@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import argparse
-from pathlib import Path
+import json
 import sys
+from pathlib import Path
 
 PLATFORM_FILES = {
-    "codex": ["AGENTS.md", ".codex/skills/vibe-code-maestro/SKILL.md", ".maestro/prompts/codex.md"],
-    "claude": ["CLAUDE.md", ".claude/skills/vibe-code-maestro/SKILL.md", ".maestro/prompts/claude.md"],
-    "lovable": ["docs/LOVABLE.md", ".maestro/prompts/lovable.md"],
-    "mimo": ["docs/MIMO.md", ".maestro/prompts/mimo.md"],
-    "cursor": [".cursor/rules/maestro.mdc", ".maestro/prompts/cursor.md"],
-    "gemini": ["GEMINI.md", ".gemini/skills/vibe-code-maestro/SKILL.md", ".maestro/prompts/gemini.md"],
+    "codex": ["AGENTS.md", ".codex/skills/vibe-code-maestro/SKILL.md"],
+    "claude": ["CLAUDE.md", ".claude/skills/vibe-code-maestro/SKILL.md"],
+    "lovable": ["docs/LOVABLE.md"],
+    "mimo": ["docs/MIMO.md"],
+    "cursor": [".cursor/rules/maestro.mdc"],
+    "gemini": ["GEMINI.md", ".gemini/skills/vibe-code-maestro/SKILL.md"],
 }
-
-COMMON_FILES = [
-    ".maestro/START-HERE.md",
-    ".maestro/install.json",
+STABLE_FILES = [
+    ".maestro/framework/SKILL.md",
+    ".maestro/framework/core/constitution.md",
+    ".maestro/framework/core/memory-protocol.md",
+    ".maestro/framework/core/manager-agent.md",
+    ".maestro/framework/core/question-engine.md",
+    ".maestro/framework/skills/project-onboarding/SKILL.md",
+    ".maestro/framework/skills/persistent-memory/SKILL.md",
     ".maestro/project.spec.yaml",
     ".maestro/acceptance.md",
     ".maestro/HANDOFF.md",
@@ -28,54 +30,74 @@ COMMON_FILES = [
     ".maestro/tools/memory_checkpoint.py",
     ".maestro/tools/compact_memory.py",
     ".maestro/tools/install-agentmemory.sh",
+]
+NEXT_FILES = [
     ".maestro/framework/SKILL.md",
-    ".maestro/framework/core/constitution.md",
-    ".maestro/framework/core/memory-protocol.md",
-    ".maestro/framework/core/manager-agent.md",
-    ".maestro/framework/core/question-engine.md",
-    ".maestro/framework/skills/project-onboarding/SKILL.md",
-    ".maestro/framework/skills/persistent-memory/SKILL.md",
-    ".maestro/framework/skills/ui-ux-intelligence/SKILL.md",
-    ".maestro/framework/skills/security-review/SKILL.md",
-    ".maestro/framework/skills/smoke-testing/SKILL.md",
-    ".maestro/framework/skills/ci-cd-delivery/SKILL.md",
+    ".maestro/framework/core/workspace-model.md",
+    ".maestro/framework/skills",
+    ".maestro/framework/schemas/state.schema.json",
+    ".maestro/framework/schemas/workstream.schema.json",
+    ".maestro/framework/schemas/reservations.schema.json",
+    ".maestro/framework/schemas/evidence.schema.json",
+    ".maestro/framework/schemas/context-packet.schema.json",
+    ".maestro/control-plane/state.json",
+    ".maestro/control-plane/reservations.json",
+    ".maestro/control-plane/workstreams/.gitkeep",
+    ".maestro/control-plane/evidence/.gitkeep",
+    ".maestro/control-plane/handoffs/.gitkeep",
 ]
 
+def fail(message: str) -> None:
+    print(f"ERROR: {message}", file=sys.stderr)
+    raise SystemExit(1)
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate a Vibe Code Maestro target installation")
-    parser.add_argument("target", type=Path)
-    parser.add_argument("platform", choices=[*PLATFORM_FILES, "all"])
-    args = parser.parse_args()
+def main() -> None:
+    if len(sys.argv) not in (3, 4):
+        fail("usage: validate_installation.py TARGET PLATFORM [stable|next]")
+    root = Path(sys.argv[1]).resolve()
+    platform = sys.argv[2]
+    channel = sys.argv[3] if len(sys.argv) == 4 else "stable"
+    if platform not in {*PLATFORM_FILES, "all"}:
+        fail(f"unsupported platform: {platform}")
+    if channel not in {"stable", "next"}:
+        fail(f"unsupported channel: {channel}")
 
-    target = args.target.resolve()
-    required = list(COMMON_FILES)
-    if args.platform == "all":
-        for files in PLATFORM_FILES.values():
-            required.extend(files)
-    else:
-        required.extend(PLATFORM_FILES[args.platform])
+    required = [".maestro/START-HERE.md", ".maestro/install.json"]
+    required += STABLE_FILES if channel == "stable" else NEXT_FILES
+    platforms = PLATFORM_FILES if platform == "all" else {platform: PLATFORM_FILES[platform]}
+    for files in platforms.values():
+        required += files
+    missing = [path for path in required if not (root / path).exists()]
+    if missing:
+        fail("missing required paths: " + ", ".join(missing))
 
-    missing = [item for item in required if not (target / item).is_file()]
-    empty = [item for item in required if (target / item).is_file() and (target / item).stat().st_size == 0]
+    metadata = json.loads((root / ".maestro/install.json").read_text(encoding="utf-8"))
+    expected_version = "1" if channel == "stable" else "0.2.1-lab"
+    expected = {
+        "framework": "vibe-code-maestro",
+        "version": expected_version,
+        "channel": channel,
+        "framework_path": ".maestro/framework",
+        "control_plane_path": ".maestro/control-plane",
+    }
+    for key, value in expected.items():
+        if metadata.get(key) != value:
+            fail(f"install.json {key!r} must be {value!r}")
+    if not metadata.get("installed_at"):
+        fail("install.json must declare installed_at")
 
-    if missing or empty:
-        print("Vibe Code Maestro installation validation failed", file=sys.stderr)
-        for item in missing:
-            print(f"- missing: {item}", file=sys.stderr)
-        for item in empty:
-            print(f"- empty: {item}", file=sys.stderr)
-        return 1
+    if channel == "next":
+        state = json.loads((root / ".maestro/control-plane/state.json").read_text(encoding="utf-8"))
+        reservations = json.loads((root / ".maestro/control-plane/reservations.json").read_text(encoding="utf-8"))
+        state_required = {"project", "default_branch", "active_workstreams", "updated_at"}
+        if not state_required.issubset(state):
+            fail("control-plane state is missing schema-required properties")
+        if not isinstance(state["active_workstreams"], list):
+            fail("active_workstreams must be an array")
+        if not isinstance(reservations.get("reservations"), list) or "updated_at" not in reservations:
+            fail("reservations file does not match its schema contract")
 
-    start = (target / ".maestro/START-HERE.md").read_text(encoding="utf-8")
-    state = (target / ".maestro/memory/STATE.md").read_text(encoding="utf-8")
-    if "persistent memory" not in start.lower() or "Exact next action" not in state:
-        print("Memory onboarding contract is incomplete", file=sys.stderr)
-        return 1
-
-    print(f"Installation validated for {args.platform}: {target}")
-    return 0
-
+    print(f"Installation validation passed for platform={platform}, channel={channel}.")
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()

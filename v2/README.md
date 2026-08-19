@@ -2,6 +2,8 @@
 
 > Experimental V2. This directory does not replace Vibe Code Maestro v1 yet.
 
+An experimental installer is available via `bootstrap.sh <platform> <target> --channel next` and `bootstrap.ps1 -Platform <platform> -Target <target> -Channel next`. It installs the V2 framework and creates an empty schema-derived control plane; it does not copy example state. Independent Test C remains required before this experimental status can change.
+
 ## Product thesis
 
 **Persistent memory. Scoped agents. Verified delivery.**

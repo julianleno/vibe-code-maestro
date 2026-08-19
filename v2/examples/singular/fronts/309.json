@@ -55,20 +55,20 @@
   "live_state": {
     "base_sha": "8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d",
     "head_sha": "eb9676fb3039f2f3234c0041d1b8ed5c688f3902",
-    "verified_at": "2026-08-19T07:29:00-03:00",
+    "verified_at": "2026-08-19T20:33:26-03:00",
     "requires_recheck": true,
     "source": "GitHub PR #312 + exact-head CI #824",
     "truth_class": "LIVE_VERIFIED"
   },
   "control_plane_state": {
     "truth_class": "CONTROL_PLANE_CANONICAL",
-    "verified_at": "2026-08-19T07:29:00-03:00",
+    "verified_at": "2026-08-19T20:33:26-03:00",
     "contradiction_detected": false
   },
   "blockers": [
     "Production implementation is intentionally blocked until explicit human visual approval",
-    "PR #312 is based on 8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d while current main is 00a97ddaa7f8c869ff1929f6c963906f3d5b845e; visual review may proceed, but production implementation must start from fresh main or rebase first"
+    "PR #312 is based on 8599aa3c186ecb58f4a7eecdad8aa8a6ba9e4e9d while current main is 30cf3d854f300bccd854fe9ade66d276585f92c1; visual review may proceed, but production implementation must start from fresh main or rebase first"
   ],
   "next_action": "Julian reviews the refined Direction B screenshots/HTML. If he explicitly approves implementation, compile a new production mission from fresh main; otherwise Kimi revises static mocks only and stops again.",
-  "updated_at": "2026-08-19T07:29:00-03:00"
+  "updated_at": "2026-08-19T20:33:26-03:00"
 }

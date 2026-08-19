@@ -1,76 +1,51 @@
-# Install Vibe Code Maestro — Agent Runbook
+# Installing Vibe Code Maestro for AI agents
 
-You are a coding agent. Install Vibe Code Maestro into the user's target repository, verify it, and report the result. Do not edit application code during installation.
+The installer has two explicit channels:
 
-## 1. Determine the target
+- `stable` installs the current V1 framework and remains the default.
+- `next` installs the experimental Maestro Next framework from `v2/`.
 
-Use the current repository unless the user explicitly named another folder. Detect the platform from the current agent:
+Maestro Next is not production-ready yet. Independent Test C remains a separate release gate.
 
-- Codex → `codex`
-- Claude Code → `claude`
-- Lovable → `lovable`
-- Mimo Build → `mimo`
-- Cursor → `cursor`
-- Gemini CLI → `gemini`
-
-If uncertain and shell access exists, use `all`.
-
-## 2. Install from a temporary clone
+## Shell
 
 ```bash
-SOURCE_DIR="$(mktemp -d)/vibe-code-maestro"
-git clone --depth 1 https://github.com/julianleno/vibe-code-maestro.git "$SOURCE_DIR"
-bash "$SOURCE_DIR/installers/bootstrap.sh" <platform> .
+./installers/bootstrap.sh codex .
+./installers/bootstrap.sh codex . --channel stable
+./installers/bootstrap.sh codex . --channel next
 ```
 
-On Windows PowerShell:
+## PowerShell
 
 ```powershell
-$source = Join-Path $env:TEMP "vibe-code-maestro"
-Remove-Item -Recurse -Force $source -ErrorAction SilentlyContinue
-git clone --depth 1 https://github.com/julianleno/vibe-code-maestro.git $source
-powershell -ExecutionPolicy Bypass -File "$source\installers\bootstrap.ps1" <platform> .
+./installers/bootstrap.ps1 -Platform codex -Target .
+./installers/bootstrap.ps1 -Platform codex -Target . -Channel stable
+./installers/bootstrap.ps1 -Platform codex -Target . -Channel next
 ```
 
-## 3. Verify
+Supported platforms are `codex`, `claude`, `lovable`, `mimo`, `cursor`, `gemini`, and `all`.
 
-Confirm that these exist:
+## Installation layout
+
+Both channels install their framework under `.maestro/framework/` and identify the channel in `.maestro/install.json`.
+
+Stable retains the existing V1 project memory and onboarding layout. Next installs `v2/SKILL.md`, `v2/core/`, `v2/skills/`, and `v2/schemas/`. It creates an empty schema-derived control plane:
 
 ```text
-.maestro/START-HERE.md
-.maestro/project.spec.yaml
-.maestro/memory/INDEX.md
-.maestro/memory/PROJECT.md
-.maestro/memory/STATE.md
-.maestro/framework/core/constitution.md
-.maestro/framework/core/memory-protocol.md
-.maestro/framework/skills/project-onboarding/SKILL.md
-.maestro/framework/skills/persistent-memory/SKILL.md
+.maestro/control-plane/
+|-- state.json
+|-- reservations.json
+|-- workstreams/.gitkeep
+|-- evidence/.gitkeep
+`-- handoffs/.gitkeep
 ```
 
-Also confirm the platform-specific file, such as `AGENTS.md`, `CLAUDE.md`, `docs/LOVABLE.md`, or `docs/MIMO.md`.
+The example fixture under `v2/examples/` is never copied as project state.
 
-## 4. Start onboarding
+## Existing repositories and reinstall
 
-Read `.maestro/START-HERE.md`, load repository memory, inspect the repository, and ask only unanswered beginner-friendly questions. Do not scaffold production code before the specification and acceptance criteria are ready.
+The installer does not touch application code. Existing `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` content is preserved outside the managed Maestro block.
 
-## 5. Optional semantic memory
+Framework files are refreshed on reinstall. Project-owned V1 memory and Next control-plane state are not silently replaced. Invalid, missing, repeated, or unsupported channel arguments fail closed.
 
-Do not install external services without explicit user approval. When approved and the platform is Codex, Claude, Cursor, or Gemini, run:
-
-```bash
-bash "$SOURCE_DIR/installers/install-agentmemory.sh" <platform>
-```
-
-Repository memory remains canonical.
-
-## 6. Report
-
-Report:
-
-- target path;
-- selected platform;
-- validation result;
-- files created or updated;
-- whether existing instructions were preserved;
-- exact next prompt the user should send.
+For Next, begin with `.maestro/START-HERE.md`. Its order follows `v2/SKILL.md`: workspace boundary, smallest state, live verification, reservations and dependencies, context packet, execution, audit, and gates.

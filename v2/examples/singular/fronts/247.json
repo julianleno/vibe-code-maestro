@@ -3,7 +3,7 @@
   "title": "SH-257 — controlled catalog proposal review/publication",
   "issue": 247,
   "pr": 308,
-  "status": "active",
+  "status": "done",
   "agent": "agent-b",
   "objective": "Close only the final pgTAP evidence gate on the existing #308 after the functional SH-257 gaps passed cross-review; do not change functional behavior unless the runtime test proves a real blocker.",
   "definition_of_done": [
@@ -24,7 +24,7 @@
   ],
   "procedure_refs": ["PROCEDURE:INDEPENDENT_PR_QA"],
   "gotcha_refs": ["GOTCHA:PUBLISHED_CATALOG_ITEMS_ARE_LIVE_STATE"],
-  "latest_handoff": "Cross-review found the functional implementation PASS on #308 head 0e347e5758e88cf4b4761788ee71b5b9f98afa72. The only missing gate is runtime pgTAP. The previous SH-200 validation failed at supabase start because Docker was unavailable; the human has now reopened Docker and assigned Agent B to rerun only this evidence gate.",
+  "latest_handoff": "PR #308 merged at c5e93b93c12580045943d9714d79093a85c9b227 and issue #247 closed on 2026-08-19. The workstream is complete; follow-on XBZ end-to-end QA remains tracked separately as #248.",
   "reservations": {
     "owned": [
       "apps/hub/src/components/products/products-workspace.tsx",
@@ -63,21 +63,19 @@
     }
   },
   "live_state": {
-    "base_sha": "00a97ddaa7f8c869ff1929f6c963906f3d5b845e",
-    "head_sha": "0e347e5758e88cf4b4761788ee71b5b9f98afa72",
-    "verified_at": "2026-08-19T07:29:00-03:00",
+    "base_sha": "30cf3d854f300bccd854fe9ade66d276585f92c1",
+    "head_sha": "c5e93b93c12580045943d9714d79093a85c9b227",
+    "verified_at": "2026-08-19T20:33:26-03:00",
     "requires_recheck": true,
-    "source": "GitHub PR #308 + CI #823 + SH-200 Final Validation #156",
+    "source": "GitHub issue #247 + merged PR #308 + live main",
     "truth_class": "LIVE_VERIFIED"
   },
   "control_plane_state": {
     "truth_class": "CONTROL_PLANE_CANONICAL",
-    "verified_at": "2026-08-19T07:29:00-03:00",
+    "verified_at": "2026-08-19T20:33:26-03:00",
     "contradiction_detected": false
   },
-  "blockers": [
-    "The updated pgTAP suite has not yet produced a runtime PASS; rerun is in progress after Docker was reopened"
-  ],
-  "next_action": "Agent B reruns only the updated pgTAP in a local/disposable Supabase environment, performs only stale-comment cleanup if needed, verifies the exact new head, and stops without merge or issue close.",
-  "updated_at": "2026-08-19T07:29:00-03:00"
+  "blockers": [],
+  "next_action": "No action on this completed workstream; use the separately tracked #248 for XBZ end-to-end QA.",
+  "updated_at": "2026-08-19T20:33:26-03:00"
 }

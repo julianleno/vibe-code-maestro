@@ -1,38 +1,6 @@
 {
   "reservations": [
     {
-      "pattern": "apps/hub/src/components/products/products-workspace.tsx",
-      "workstream": "247",
-      "agent": "agent-b",
-      "mode": "exclusive",
-      "reason": "Existing #308 functional diff; no new functional edits unless pgTAP proves a real blocker",
-      "expires_when": "#308 is merged/closed or reservation is explicitly released"
-    },
-    {
-      "pattern": "apps/hub/src/components/products/products-workspace-catalog-review.test.tsx",
-      "workstream": "247",
-      "agent": "agent-b",
-      "mode": "exclusive",
-      "reason": "Existing #308 SH-257 focused regression proof",
-      "expires_when": "#308 is merged/closed or reservation is explicitly released"
-    },
-    {
-      "pattern": "docs/integrations/xbz/CATALOG_PROPOSAL_REVIEW_AUDIT.md",
-      "workstream": "247",
-      "agent": "agent-b",
-      "mode": "exclusive",
-      "reason": "Final SH-257 evidence/documentation cleanup",
-      "expires_when": "#308 is merged/closed or reservation is explicitly released"
-    },
-    {
-      "pattern": "supabase/tests/catalog_proposal_review_test.sql",
-      "workstream": "247",
-      "agent": "agent-b",
-      "mode": "exclusive",
-      "reason": "Final pgTAP runtime gate for SH-257",
-      "expires_when": "#308 is merged/closed or reservation is explicitly released"
-    },
-    {
       "pattern": "docs/previews/public-quote-pdf-v2/**",
       "workstream": "309",
       "agent": "kimi-k3",
@@ -41,5 +9,5 @@
       "expires_when": "visual decision is completed or workstream changes owner"
     }
   ],
-  "updated_at": "2026-08-19T07:29:00-03:00"
+  "updated_at": "2026-08-19T20:33:26-03:00"
 }
