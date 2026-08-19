@@ -38,7 +38,26 @@
         "close_issue": { "type": "boolean" },
         "deploy_production": { "type": "boolean" },
         "remote_db": { "type": "boolean" },
-        "destructive_remote_data": { "type": "boolean", "default": false }
+        "destructive_remote_data": { "type": "boolean", "default": false },
+        "write_scope": {
+          "type": "object",
+          "properties": {
+            "local": { "type": "boolean", "default": false },
+            "paths": { "type": "array", "items": { "type": "string" } },
+            "commit": { "type": "boolean", "default": false },
+            "push": { "type": "boolean", "default": false }
+          },
+          "additionalProperties": false
+        },
+        "collaboration": {
+          "type": "object",
+          "properties": {
+            "open_draft_pr": { "type": "boolean", "default": false },
+            "update_draft_pr": { "type": "boolean", "default": false },
+            "comment_evidence": { "type": "boolean", "default": false }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },
@@ -48,7 +67,18 @@
         "base_sha": { "type": ["string", "null"] },
         "head_sha": { "type": ["string", "null"] },
         "verified_at": { "type": ["string", "null"] },
-        "requires_recheck": { "type": "boolean", "default": true }
+        "requires_recheck": { "type": "boolean", "default": true },
+        "source": { "type": ["string", "null"] },
+        "truth_class": { "enum": ["LIVE_VERIFIED", "CONTROL_PLANE_CANONICAL", "EXECUTOR_CLAIM", "INFERENCE"] }
+      },
+      "additionalProperties": false
+    },
+    "control_plane_state": {
+      "type": "object",
+      "properties": {
+        "truth_class": { "const": "CONTROL_PLANE_CANONICAL" },
+        "verified_at": { "type": ["string", "null"] },
+        "contradiction_detected": { "type": "boolean", "default": false }
       },
       "additionalProperties": false
     },

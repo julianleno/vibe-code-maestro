@@ -16,7 +16,11 @@
           "agent": { "type": ["string", "null"] },
           "mode": { "enum": ["exclusive", "coordinated", "read-only"] },
           "reason": { "type": ["string", "null"] },
-          "expires_when": { "type": ["string", "null"] }
+          "expires_when": { "type": ["string", "null"] },
+          "status": { "enum": ["canonical", "active", "candidate", "superseded", "historical"] },
+          "source": { "type": ["string", "null"] },
+          "verified_at": { "type": ["string", "null"] },
+          "contradiction_detected": { "type": "boolean", "default": false }
         },
         "additionalProperties": false
       }
