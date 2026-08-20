@@ -2,7 +2,7 @@
 
 > Experimental V2. This directory does not replace Vibe Code Maestro v1 yet.
 
-An experimental installer is available via `bootstrap.sh <platform> <target> --channel next` and `bootstrap.ps1 -Platform <platform> -Target <target> -Channel next`. It installs the V2 framework and creates an empty schema-derived control plane; it does not copy example state. Independent Test C remains required before this experimental status can change.
+An experimental installer is available via `bootstrap.sh <platform> <target> --channel next` and `bootstrap.ps1 -Platform <platform> -Target <target> -Channel next`. It installs the V2 framework and creates an empty schema-derived control plane; it does not copy example state. Test C has passed through a genuinely fresh agent run, but this installer remains experimental pending final product review.
 
 ## Product thesis
 
@@ -76,7 +76,7 @@ Two fresh-agent tests using the real Singular project have passed the core hypot
 
 Those tests exposed the V2.1 changes above: selective reference resolution, evidence levels, exact-head CI depth, truth classes and control-plane drift.
 
-The next required experiment is **stale-memory resistance**: intentionally provide an outdated SHA/status and verify that a fresh agent detects the contradiction, prefers live operational state, and preserves unrelated canonical human decisions.
+**Stale-memory resistance passed:** a genuinely fresh agent detected the frozen fixture's outdated SHA/status, preferred live operational state, classified the drift, retired only expired reservations, and preserved unrelated authority and scope boundaries. The frozen fixture remains available as historical evidence under `v2/examples/singular/test-c/`.
 
 ## Context efficiency
 

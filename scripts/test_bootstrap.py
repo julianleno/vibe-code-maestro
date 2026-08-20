@@ -43,14 +43,19 @@ def exercise(installer, platform: str, channel: str):
         metadata = json.loads((target / ".maestro/install.json").read_text(encoding="utf-8"))
         assert metadata["channel"] == channel
         assert metadata["framework_path"] == ".maestro/framework"
-        assert metadata["control_plane_path"] == ".maestro/control-plane"
         if channel == "stable":
+            assert metadata["version"] == "1"
+            assert metadata["control_plane_path"] is None
+            assert not (target / ".maestro/control-plane").exists()
             assert (target / ".maestro/framework/core/constitution.md").is_file()
             state_path = target / ".maestro/memory/STATE.md"
             assert state_path.is_file()
             with state_path.open("a", encoding="utf-8") as state_file:
                 state_file.write("\nREINSTALL-SENTINEL\n")
         else:
+            assert metadata["version"] == "0.2.1-lab"
+            assert metadata["control_plane_path"] == ".maestro/control-plane"
+            assert (target / ".maestro/control-plane").is_dir()
             assert (target / ".maestro/framework/core/workspace-model.md").is_file()
             assert (target / ".maestro/framework/skills").is_dir()
             assert (target / ".maestro/framework/schemas/evidence.schema.json").is_file()
@@ -96,7 +101,10 @@ def main():
         run(["bash", shell, "codex", destination, "--channel", "future"], expect=2)
         run(["bash", shell, "codex", destination, "--channel"], expect=2)
         run(["bash", shell, "codex", destination, "--channel", "next", "--channel", "stable"], expect=2)
+        run(["bash", shell, "codex", destination, "--channel", "stable"])
+        assert not (target / ".maestro/control-plane").exists()
         run(["bash", shell, "codex", destination, "--channel", "next"])
+        assert (target / ".maestro/control-plane").is_dir()
         assert not (target / ".maestro/framework/agents").exists()
         run(["bash", shell, "codex", destination, "--channel", "stable"])
         assert not (target / ".maestro/framework/schemas").exists()

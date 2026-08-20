@@ -180,7 +180,7 @@ $metadata = [ordered]@{
     platform = $Platform
     installed_at = [DateTime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ssZ')
     framework_path = '.maestro/framework'
-    control_plane_path = '.maestro/control-plane'
+    control_plane_path = if ($Channel -eq 'next') { '.maestro/control-plane' } else { $null }
     start_file = '.maestro/START-HERE.md'
 }
 Write-Utf8 (Join-Path $maestroRoot 'install.json') (($metadata | ConvertTo-Json) + "`n")

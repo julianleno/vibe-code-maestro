@@ -73,12 +73,13 @@ def main() -> None:
 
     metadata = json.loads((root / ".maestro/install.json").read_text(encoding="utf-8"))
     expected_version = "1" if channel == "stable" else "0.2.1-lab"
+    expected_control_plane = ".maestro/control-plane" if channel == "next" else None
     expected = {
         "framework": "vibe-code-maestro",
         "version": expected_version,
         "channel": channel,
         "framework_path": ".maestro/framework",
-        "control_plane_path": ".maestro/control-plane",
+        "control_plane_path": expected_control_plane,
     }
     for key, value in expected.items():
         if metadata.get(key) != value:

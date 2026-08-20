@@ -178,6 +178,8 @@ command -v git >/dev/null 2>&1 && [ ! -d "$TARGET_ROOT/.git" ] && git -C "$TARGE
 INSTALLED_AT="$(date -u +'%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || date)"
 VERSION="1"
 [ "$CHANNEL" = "next" ] && VERSION="0.2.1-lab"
+CONTROL_PLANE_PATH="null"
+[ "$CHANNEL" = "next" ] && CONTROL_PLANE_PATH="\".maestro/control-plane\""
 cat > "$MAESTRO_ROOT/install.json" <<EOF
 {
   "framework": "vibe-code-maestro",
@@ -186,7 +188,7 @@ cat > "$MAESTRO_ROOT/install.json" <<EOF
   "platform": "$PLATFORM",
   "installed_at": "$INSTALLED_AT",
   "framework_path": ".maestro/framework",
-  "control_plane_path": ".maestro/control-plane",
+  "control_plane_path": $CONTROL_PLANE_PATH,
   "start_file": ".maestro/START-HERE.md"
 }
 EOF
