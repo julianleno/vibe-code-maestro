@@ -100,9 +100,9 @@ Expected behavior:
 
 ### Observed result
 
-**PENDING fresh-agent execution.** The reproducible stale fixture and operator prompt are prepared. Do not mark Test C PASS until a genuinely fresh session returns the required `TEST_C_RESULT` and the result is independently checked.
+**PASS.** A genuinely fresh AGY (CARAXES) session returned `TEST_C_RESULT = PASS`, and the orchestrator independently reviewed the result. The run detected stale main, preferred live GitHub truth, classified `STATE_DRIFT` correctly, retired the expired #262/#247 reservations, preserved the valid #309 reservation, respected merge/close/deploy/database authority constraints, performed no privileged mutation, and loaded no unrelated workstream.
 
-Test C is required before claiming the memory layer is resilient over time.
+This remains historical evidence of stale-memory resistance. The protocol above is preserved, and every file under `v2/examples/singular/test-c/` remains deliberately stale and frozen.
 
 ## Success criteria
 
